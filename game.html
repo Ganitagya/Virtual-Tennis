@@ -1,0 +1,62 @@
+<html>
+
+<h2 class = "red-text">Virtual Tennis</h2>
+
+<!-- window.onload functionality... as soon as the window finishes loading run the code between {} after function()
+Our code does not run till the entire window is finished loading -->
+
+
+<!-- create an HTML Canvas to Dispaly Graphics on using the canvas element-->
+<canvas id = "gameCanvas" width = "800" height = "600"></canvas>
+
+<!-- Grab the HTML Canvas For use within JavaScript -->
+<script>
+var canvas;  //works as a handle to the canvas
+var canvasContext;
+
+var paddle1Y = 250;
+
+const PADDLE_HEIGHT = 100;
+const PADDLE_THICKNESS = 10;
+
+function calculateMousePos(evt) {
+	var rect = canvas.getBoundingClientRect();
+	var root = document.documentElement;						//document is the html document
+	var mouseX = evt.clientX - rect.left - root.scrollLeft;
+	var mouseY = evt.clientY - rect.top - root.scrollTop;
+	return {
+		x:mouseX,
+		y:mouseY
+	};
+}
+
+window.onload = function() {
+	canvas = document.getElementById("gameCanvas");
+	canvasContext = canvas.getContext('2d');
+
+	var framesPerSecond = 30; 
+	
+	setInterval( drawStuff, 1000 / framesPerSecond);
+
+	canvas.addEventListener('mousemove', function(evt) {
+											var mousePos = calculateMousePos(evt);
+											paddle1Y = mousePos.y - (PADDLE_HEIGHT / 2 );
+							})
+}
+
+function drawStuff() {
+
+	//next line will blank out the screen with black
+	colorRect(0, 0, canvas.width, canvas.height, 'black');
+	
+	//this is left player paddle
+	colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
+
+}
+
+function colorRect( leftX, topY, width, height, color) {
+	canvasContext.fillStyle = color;
+	canvasContext.fillRect( leftX, topY, width, height);
+}
+
+</script>
